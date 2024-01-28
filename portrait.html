@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script type="text/javascript"> 
+
+   window.addEventListener('load',function() {
+    let myAudio = document.getElementById("myaudio");
+    console.log(myaudio);
+   })
+   </script>
+
+  <style>
+   body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+    }
+
+    #bubbles-container {
+   position: absolute;
+   top: 0;
+   left: 0;
+    }
+
+    #portrait-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #canvas {
+      border: 2px solid black;
+      display: block;
+      margin: auto;
+    }
+
+    #audio-container {
+            margin: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 20px; 
+            top: 40px;
+            left: 79vw;
+        }
+
+        #playlist {
+            margin: 10px;
+            height: 30px;
+        }
+
+        #myaudio {
+            width: 200px; 
+        }
+
+  </style>
+</head>
+<body>
+    
+    </div>
+
+        <div id="bubbles-container"></div>
+       
+        <div id="portrait-container">
+            <div id="audio-container">
+            
+                <audio id="myaudio" controls>
+                    <source id="audioSource" src="totoro.mp4" type="audio/mp4">
+                    <source id="audioSource" src="Nevermore.mp3" type="audio/mp3">
+                    <source id="audioSource" src="Cestsibon.mp3" type="audio/mp3">
+                </audio>
+        
+                <select id="playlist" onchange="changeTrack()">
+                    <option value="">Playlist</option>
+                    <option value="totoro.mp4">Totoro</option>
+                    <option value="Nevermore.mp3">Nevermore</option>
+                    <option value="Cestsibon.mp3">C'est si bon</option>
+                    <!-- Add more options for additional audio tracks -->
+                </select> 
+    
+            
+            </div>
+            
+        <script type="text/javascript">  
+
+      function changeTrack() {
+        let dropdown = document.getElementById("playlist");
+        let audio = document.getElementById("myaudio");
+        let source = document.getElementById("myaudio");
+
+        source.src = dropdown.value;
+        audio.load();
+        audio.play();
+    }
+
+
+      let bubbles = [];
+      let bubblesContainer;
+ 
+
+      let myColorPink, myColorBlue, myColorYellow, myColorGreen, myColorRed, myColorBrown, myColorSkin;
+      let eyeBallX1, eyeBallX2, eyeBallY1, eyeBallY2;
+      let hairX, hairY;
+      let eyeBrowY;
+
+      function setup() {
+        bubblesContainer = createCanvas(windowWidth-100,windowHeight-100);
+
+
+        myColorPink = color(242, 206, 227);
+        myColorBlue = color(101, 175, 207);
+        myColorYellow = color(209, 169, 38);
+        myColorGreen = color(77, 161, 88);
+        myColorRed = color(191, 33, 33);
+        myColorBrown = color(74, 45, 6);
+        myColorSkin = color(247, 231, 218);
+        hairX = 85;
+        hairY = 80;
+        eyeBrowY = 180;
+      }
+
+      function draw() {
+        background(0);
+
+        for (let i = 0; i < bubbles.length; i++) {
+          bubbles[i].move();
+          bubbles[i].show();
+        }
+
+        eyeBallX1 = map(mouseX, 0, width, 140, 141);
+        eyeBallX2 = map(mouseX, 0, width, 240, 241);
+        eyeBallY1 = map(mouseY, 0, height, 195, 205);
+        eyeBallY2 = map(mouseY, 0, height, 195, 205);
+
+        if (eyeBallX1 < mouseX) {
+          eyeBallX1 += 20;
+          eyeBallX2 += 20;
+        }
+
+        fill(0);
+        textSize(15);
+        noStroke();
+
+        // fill(myColorBlue);
+        // noStroke();
+        // circle(400, 400, 200);
+
+        fill(myColorBrown);
+        beginShape();
+        curveVertex(hairX, hairY);
+        curveVertex(hairX + 10, hairY + 40);
+        curveVertex(hairX - 6, hairY + 110);
+        curveVertex(hairX + 10, hairY + 200);
+        curveVertex(hairX - 35, hairY + 300);
+        curveVertex(hairX + 30, hairY + 360);
+        curveVertex(hairX + 270, hairY + 320);
+        curveVertex(hairX + 240, hairY + 180);
+        curveVertex(hairX + 205, hairY + 30);
+        curveVertex(hairX, hairY);
+        endShape();
+        
+
+        noStroke();
+        fill(myColorSkin);
+        ellipse(200, 200, 180, 230);
+
+        rect(160, 280, 80, 70);
+
+        fill(myColorGreen);
+        beginShape();
+        vertex(80, 400);
+        vertex(160, 340);
+        vertex(240, 340);
+        vertex(320, 400);
+        endShape();
+
+        strokeWeight(2);
+        ellipse(200, 120, 300, 70);
+        noStroke();
+        circle(200, 95, 150);
+        arc(115, 129, 100, 60, 0, PI);
+        arc(290, 129, 100, 60, 0, PI);
+
+
+        noStroke();
+        fill(myColorYellow);
+        ellipse(150, 200, 40, 35);
+        ellipse(250, 200, 40, 35);
+
+        fill(0);
+        circle(eyeBallX1, eyeBallY1, 20);
+        circle(eyeBallX2, eyeBallY2, 20);
+
+        fill(myColorGreen);
+        triangle(200, 220, 190, 235, 210, 235);
+
+        fill(255);
+        textSize(16);
+        textFont("Georgia");
+        text('Click me and drag my clone to generate bubbles', 40, 480);
+
+        fill(myColorRed);
+        arc(200, 258, 40, 50, 0, PI);
+
+        fill(myColorRed);
+        triangle(110, 220, 80, 270, 110, 270);
+        triangle(290, 220, 290, 270, 320, 270);
+
+        stroke(myColorRed);
+        strokeWeight(4);
+        circle(96, 272, 28);
+        circle(304, 272, 28);
+
+        stroke(myColorGreen);
+        strokeWeight(2);
+        noFill();
+
+        if (mouseY > eyeBrowY) {
+          arc(148, eyeBrowY, 40, 10, PI, 0);
+          arc(248, eyeBrowY, 40, 10, PI, 0);
+        } else {
+          arc(148, eyeBrowY, 40, 25, PI, 0);
+          arc(248, eyeBrowY, 40, 25, PI, 0);
+        }
+
+        fill(myColorPink);
+        noStroke();
+        circle(mouseX, mouseY, 25);
+
+        if (mouseIsPressed) {
+
+
+          fill(myColorBrown);
+          beginShape();
+          curveVertex(hairX + mouseX - 180, hairY + mouseY - 180);
+          curveVertex(hairX + 10 + mouseX - 180, hairY + 40 + mouseY - 180);
+          curveVertex(hairX - 6 + mouseX - 180, hairY + 110 + mouseY - 180);
+          curveVertex(hairX + 10 + mouseX - 180, hairY + 200 + mouseY - 180);
+          curveVertex(hairX - 35 + mouseX - 180, hairY + 300 + mouseY - 180);
+          curveVertex(hairX + 30 + mouseX - 180, hairY + 360 + mouseY - 180);
+          curveVertex(hairX + 270 + mouseX - 180, hairY + 320 + mouseY - 180);
+          curveVertex(hairX + 240 + mouseX - 180, hairY + 180 + mouseY - 180);
+          curveVertex(hairX + 205 + mouseX - 180, hairY + 30 + mouseY - 180);
+          curveVertex(hairX + mouseX - 180, hairY + mouseY - 180);
+          endShape();
+
+          noStroke();
+          fill(myColorSkin);
+          ellipse(200 + mouseX - 180, 200 + mouseY - 180, 180, 230);
+
+          rect(160 + mouseX - 180, 280 + mouseY - 180, 80, 70);
+
+          fill(myColorGreen);
+          beginShape();
+          vertex(80 + mouseX - 180, 400 + mouseY - 180);
+          vertex(160 + mouseX - 180, 340 + mouseY - 180);
+          vertex(240 + mouseX - 180, 340 + mouseY - 180);
+          vertex(320 + mouseX - 180, 400 + mouseY - 180);
+          endShape();
+
+          strokeWeight(2);
+          ellipse(200 + mouseX - 180, 120 + mouseY - 180, 300, 70);
+          noStroke();
+          circle(200 + mouseX - 180, 95 + mouseY - 180, 150);
+          arc(115 + mouseX - 180, 129 + mouseY - 180, 100, 60, 0, PI);
+          arc(290 + mouseX - 180, 129 + mouseY - 180, 100, 60, 0, PI);
+
+          fill(myColorYellow);
+          noStroke();
+          ellipse(150 + mouseX - 180, 200 + mouseY - 180, 40, 35);
+          ellipse(250 + mouseX - 180, 200 + mouseY - 180, 40, 35);
+
+          fill(0);
+          circle(eyeBallX1 + mouseX - 180, eyeBallY1 + mouseY - 180, 25);
+          circle(eyeBallX2 + mouseX - 180, eyeBallY2 + mouseY - 180, 25);
+
+          fill(myColorGreen);
+          triangle(200 + mouseX - 180, 220 + mouseY - 180, 190 + mouseX - 180, 235 + mouseY - 180, 210 + mouseX - 180, 235 + mouseY - 180);
+
+          fill(myColorRed);
+          arc(200 + mouseX - 180, 258 + mouseY - 180, 40, 50, 0, PI);
+
+          fill(myColorRed);
+          triangle(110 + mouseX - 180, 220 + mouseY - 180, 80 + mouseX - 180, 270 + mouseY - 180, 110 + mouseX - 180, 270 + mouseY - 180);
+          triangle(290 + mouseX - 180, 220 + mouseY - 180, 290 + mouseX - 180, 270 + mouseY - 180, 320 + mouseX - 180, 270 + mouseY - 180);
+
+          stroke(myColorRed);
+          strokeWeight(4);
+          circle(96 + mouseX - 180, 272 + mouseY - 180, 28);
+          circle(304 + mouseX - 180, 272 + mouseY - 180, 28);
+
+          stroke(myColorGreen);
+          strokeWeight(2);
+          noFill();
+          arc(148 + mouseX - 180, eyeBrowY + mouseY - 180, 40, 25, PI, 0);
+          arc(248 + mouseX - 180, eyeBrowY + mouseY - 180, 40, 25, PI, 0);
+        }
+      }
+
+      class Bubble {
+        constructor(x, y, r) {
+          this.x = x;
+          this.y = y;
+          this.r = r;
+        }
+
+        show() {
+          fill(random(255), random(255), random(255), 180);
+          noStroke();
+          circle(this.x, this.y, this.r);
+        }
+
+        move() {
+          this.x = this.x + random(-2, 2);
+          this.y = this.y - random(2, 4);
+        }
+      }
+
+      function mouseDragged() {
+        let r = random(10, 50);
+        let b = new Bubble(mouseX, mouseY, r);
+        bubbles.push(b);
+      }
+
+      function generateBubble() {
+        let x = random(width);
+        let r = random(10, 50);
+        let y = random(height);
+        let b = new Bubble(x, height, r);
+
+        bubbles.push(b);
+
+        setTimeout(generateBubble, 2000);
+      }
+    </script>
+    </div>
+  </div>
+</body>
+</html>
